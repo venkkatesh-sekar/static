@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON to Table</title>
+    <title>Canister Status</title>
     <link rel="stylesheet" href="/index.css">
 </head>
+
 <body>
     <header class="page-header">
         <h1 class="main-heading">Canister Status</h1>
         <p class="highlight-text">
-            Last updated at <span class="highlight">{{last_updated_at}}</span>.
+            Last updated at <span class="highlight">{{last_updated_at}}</span>
         </p>
     </header>
     <div class="table-container">
@@ -32,19 +34,19 @@
                 </tr>
                 <tr>
                     <td>settings.compute_allocation</td>
-                    <td>{{compute_allocation}}</td>
+                    <td>{{toNumLocale compute_allocation}}</td>
                 </tr>
                 <tr>
                     <td>settings.memory_allocation</td>
-                    <td>{{memory_allocation}}</td>
+                    <td>{{toNumLocale memory_allocation}}</td>
                 </tr>
                 <tr>
                     <td>settings.freezing_threshold</td>
-                    <td>{{freezing_threshold}}</td>
+                    <td>{{toNumLocale freezing_threshold}}</td>
                 </tr>
                 <tr>
                     <td>settings.reserved_cycles_limit</td>
-                    <td>{{reserved_cycles_limit}}</td>
+                    <td>{{toNumLocale reserved_cycles_limit}}</td>
                 </tr>
                 <tr>
                     <td>settings.log_visibility</td>
@@ -52,7 +54,7 @@
                 </tr>
                 <tr>
                     <td>settings.wasm_memory_limit</td>
-                    <td>{{wasm_memory_limit}}</td>
+                    <td>{{toNumLocale wasm_memory_limit}}</td>
                 </tr>
                 <tr>
                     <td>module_hash</td>
@@ -60,38 +62,64 @@
                 </tr>
                 <tr>
                     <td>memory_size</td>
-                    <td>{{memory_size}}</td>
+                    <td>{{toNumLocale memory_size}}</td>
                 </tr>
                 <tr>
                     <td>cycles</td>
-                    <td>{{cycles}}</td>
+                    <td>{{toNumLocale cycles}}</td>
                 </tr>
                 <tr>
                     <td>idle_cycles_burned_per_day</td>
-                    <td>{{idle_cycles_burned_per_day}}</td>
+                    <td>{{toNumLocale idle_cycles_burned_per_day}}</td>
                 </tr>
                 <tr>
                     <td>query_stats.num_calls_total</td>
-                    <td>{{query_num_calls_total}}</td>
+                    <td>{{toNumLocale query_num_calls_total}}</td>
                 </tr>
                 <tr>
                     <td>query_stats.num_instructions_total</td>
-                    <td>{{query_num_instructions_total}}</td>
+                    <td>{{toNumLocale query_num_instructions_total}}</td>
                 </tr>
                 <tr>
                     <td>query_stats.request_payload_bytes_total</td>
-                    <td>{{query_request_payload_bytes_total}}</td>
+                    <td>{{toNumLocale query_request_payload_bytes_total}}</td>
                 </tr>
                 <tr>
                     <td>query_stats.response_payload_bytes_total</td>
-                    <td>{{query_response_payload_bytes_total}}</td>
+                    <td>{{toNumLocale query_response_payload_bytes_total}}</td>
                 </tr>
                 <tr>
                     <td>reserved_cycles</td>
-                    <td>{{reserved_cycles}}</td>
+                    <td>{{toNumLocale reserved_cycles}}</td>
                 </tr>
             </tbody>
         </table>
     </div>
+    <br>
+    <header class="page-header">
+        <h2 class="sub-heading">Canister History</h2>
+    </header>
+
+    <div class="table-container">
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Index</th>
+                    <th>Update</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each canister_history}}
+                <tr>
+                    <td>{{@index}}</td>
+                    <td>
+                        <pre>{{toJSON this}}</pre>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
 </body>
+
 </html>

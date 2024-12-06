@@ -1,10 +1,13 @@
 use candid::{Nat, Principal};
 use chrono::prelude::*;
-use handlebars::Handlebars;
-use ic_cdk::api::management_canister::main::{canister_status, CanisterStatusResponse};
+use handlebars::{handlebars_helper, Handlebars};
+use ic_cdk::api::management_canister::main::{
+    canister_info, canister_status, CanisterChange, CanisterInfoRequest, CanisterStatusResponse,
+};
 use ic_cdk::api::management_canister::main::{CanisterIdRecord, CanisterStatusType, LogVisibility};
 use ic_http_certification::{HttpRequest, HttpResponse};
 use include_dir::File;
+use num_format::{Buffer, CustomFormat, Grouping};
 use num_traits::cast::ToPrimitive;
 use serde::{Deserialize, Serialize};
 use std::time::Duration;
@@ -13,6 +16,14 @@ mod asset;
 
 pub const ENABLE_TEMPLATING: bool = true;
 const UPDATE_INTERVAL_SECS: u64 = 120;
+
+handlebars_helper!(toJSON: |value: CanisterChange| serde_json::to_string_pretty(&value).unwrap().to_string());
+handlebars_helper!(toNumLocale: |value: u64| {
+    let format = CustomFormat::builder().grouping(Grouping::Standard).separator("_").build().unwrap();
+    let mut buf = Buffer::new();
+    buf.write_formatted(&(value), &format);
+    buf.to_string()
+});
 
 #[ic_cdk::init]
 fn init() {
@@ -49,15 +60,26 @@ async fn serve_canister_info<'a>(file: &File<'a>) -> String {
     .unwrap()
     .0;
 
-    let mut reg = Handlebars::new();
+    let info = canister_info(CanisterInfoRequest {
+        canister_id: ic_cdk::id(),
+        num_requested_changes: Some(20),
+    })
+    .await
+    .unwrap()
+    .0;
+
+    let mut handlebars = Handlebars::new();
     let source = file.contents();
-    assert!(reg
+    assert!(handlebars
         .register_template_string("metrics", String::from_utf8_lossy(source))
         .is_ok());
+    handlebars.register_helper("toJSON", Box::new(toJSON));
+    handlebars.register_helper("toNumLocale", Box::new(toNumLocale));
 
     let mut definite_response = DefiniteCanisterStatus::from(response);
     definite_response.last_updated_at = timestamp(ic_cdk::api::time());
-    reg.render("metrics", &definite_response).unwrap()
+    definite_response.canister_history = info.recent_changes;
+    handlebars.render("metrics", &definite_response).unwrap()
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -83,6 +105,7 @@ struct DefiniteCanisterStatus {
     pub wasm_memory_limit: u64,
 
     pub last_updated_at: String,
+    pub canister_history: Vec<CanisterChange>,
 }
 
 impl From<CanisterStatusResponse> for DefiniteCanisterStatus {
@@ -111,6 +134,7 @@ impl From<CanisterStatusResponse> for DefiniteCanisterStatus {
             wasm_memory_limit: nu64(value.settings.wasm_memory_limit),
 
             last_updated_at: String::new(),
+            canister_history: vec![],
         }
     }
 }

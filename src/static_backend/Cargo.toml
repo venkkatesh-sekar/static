@@ -12,3 +12,11 @@ crate-type = ["cdylib"]
 candid = "0.10"
 ic-cdk = "0.16"
 ic-cdk-timers = "0.10" # Feel free to remove this dependency if you don't need timers
+ic-http-certification =  {git = "https://github.com/dfinity/response-verification"}
+ic-asset-certification = {git = "https://github.com/dfinity/response-verification"}
+include_dir = {version = "0.7.4", features = ["glob"]}
+serde = "1.0.215"
+handlebars = "6.2.0"
+num-traits = "0.2.19"
+hex = "0.4.3"
+chrono = { version = "0.4.38", default-features = false, features = ["alloc"]}

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON to Table</title>
+    <link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div class="table-container">
+        <p>Last updated at {{last_updated_at}}</p>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>JSON Field</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>status</td>
+                    <td>{{status}}</td>
+                </tr>
+                <tr>
+                    <td>settings.controllers</td>
+                    <td>{{controllers}}</td>
+                </tr>
+                <tr>
+                    <td>settings.compute_allocation</td>
+                    <td>{{compute_allocation}}</td>
+                </tr>
+                <tr>
+                    <td>settings.memory_allocation</td>
+                    <td>{{memory_allocation}}</td>
+                </tr>
+                <tr>
+                    <td>settings.freezing_threshold</td>
+                    <td>{{freezing_threshold}}</td>
+                </tr>
+                <tr>
+                    <td>settings.reserved_cycles_limit</td>
+                    <td>{{reserved_cycles_limit}}</td>
+                </tr>
+                <tr>
+                    <td>settings.log_visibility</td>
+                    <td>{{log_visibility}}</td>
+                </tr>
+                <tr>
+                    <td>settings.wasm_memory_limit</td>
+                    <td>{{wasm_memory_limit}}</td>
+                </tr>
+                <tr>
+                    <td>module_hash</td>
+                    <td>{{module_hash}}</td>
+                </tr>
+                <tr>
+                    <td>memory_size</td>
+                    <td>{{memory_size}}</td>
+                </tr>
+                <tr>
+                    <td>cycles</td>
+                    <td>{{cycles}}</td>
+                </tr>
+                <tr>
+                    <td>idle_cycles_burned_per_day</td>
+                    <td>{{idle_cycles_burned_per_day}}</td>
+                </tr>
+                <tr>
+                    <td>query_stats.num_calls_total</td>
+                    <td>{{query_num_calls_total}}</td>
+                </tr>
+                <tr>
+                    <td>query_stats.num_instructions_total</td>
+                    <td>{{query_num_instructions_total}}</td>
+                </tr>
+                <tr>
+                    <td>query_stats.request_payload_bytes_total</td>
+                    <td>{{query_request_payload_bytes_total}}</td>
+                </tr>
+                <tr>
+                    <td>query_stats.response_payload_bytes_total</td>
+                    <td>{{query_response_payload_bytes_total}}</td>
+                </tr>
+                <tr>
+                    <td>reserved_cycles</td>
+                    <td>{{reserved_cycles}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -7,12 +7,17 @@
     <link rel="stylesheet" href="/index.css">
 </head>
 <body>
+    <header class="page-header">
+        <h1 class="main-heading">Canister Status</h1>
+        <p class="highlight-text">
+            Last updated at <span class="highlight">{{last_updated_at}}</span>.
+        </p>
+    </header>
     <div class="table-container">
-        <p>Last updated at {{last_updated_at}}</p>
         <table class="styled-table">
             <thead>
                 <tr>
-                    <th>JSON Field</th>
+                    <th>Setting</th>
                     <th>Value</th>
                 </tr>
             </thead>

@@ -1,0 +1,17 @@
+{
+  "canisters": {
+    "static_backend": {
+      "candid": "src/static_backend/static_backend.did",
+      "package": "static_backend",
+      "type": "rust"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}

@@ -10,9 +10,14 @@ use include_dir::File;
 use num_format::{Buffer, CustomFormat, Grouping};
 use num_traits::cast::ToPrimitive;
 use serde::{Deserialize, Serialize};
+use std::cell::RefCell;
 use std::time::Duration;
 
 mod asset;
+
+thread_local! {
+    static LAST_CYCLES_FOR_TIMER: RefCell<u64> = RefCell::new(0);
+}
 
 pub const ENABLE_TEMPLATING: bool = true;
 const UPDATE_INTERVAL_SECS: u64 = 120;
@@ -41,7 +46,11 @@ fn certify_on_timer() {
             let now = ic_cdk::api::performance_counter(1);
             asset::certify_all_assets().await;
             let elapsed = ic_cdk::api::performance_counter(1);
-            ic_cdk::println!("Instructions used for recertification : {}", elapsed - now);
+
+            // instruction to cycles
+            // subnet size = 13 and ten_update_inst = 10 cycles
+            // cycles = inst * (10 / 10) * (13 / 13) = inst
+            LAST_CYCLES_FOR_TIMER.with_borrow_mut(|v| *v = elapsed - now);
         })
     });
 }
@@ -79,6 +88,7 @@ async fn serve_canister_info<'a>(file: &File<'a>) -> String {
     let mut definite_response = DefiniteCanisterStatus::from(response);
     definite_response.last_updated_at = timestamp(ic_cdk::api::time());
     definite_response.canister_history = info.recent_changes;
+    definite_response.last_cycles_cost = LAST_CYCLES_FOR_TIMER.with_borrow(|v| *v);
     handlebars.render("metrics", &definite_response).unwrap()
 }
 
@@ -106,6 +116,7 @@ struct DefiniteCanisterStatus {
 
     pub last_updated_at: String,
     pub canister_history: Vec<CanisterChange>,
+    pub last_cycles_cost: u64,
 }
 
 impl From<CanisterStatusResponse> for DefiniteCanisterStatus {
@@ -135,6 +146,7 @@ impl From<CanisterStatusResponse> for DefiniteCanisterStatus {
 
             last_updated_at: String::new(),
             canister_history: vec![],
+            last_cycles_cost: 0,
         }
     }
 }

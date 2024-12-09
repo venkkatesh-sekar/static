@@ -44,11 +44,22 @@ pub(crate) async fn certify_all_assets() {
                 "cache-control".to_string(),
                 "public, no-cache, no-store".to_string(),
             )]),
+            fallback_for: vec![],
+            aliased_by: vec!["/".to_string()],
+            encodings: encodings.clone(),
+        },
+        AssetConfig::File {
+            path: "404.html".to_string(),
+            content_type: Some("text/html".to_string()),
+            headers: get_asset_headers(vec![(
+                "cache-control".to_string(),
+                "public, no-cache, no-store".to_string(),
+            )]),
             fallback_for: vec![AssetFallbackConfig {
                 scope: "/".to_string(),
-                status_code: Some(StatusCode::OK),
+                status_code: Some(StatusCode::NOT_FOUND),
             }],
-            aliased_by: vec!["/".to_string()],
+            aliased_by: vec![],
             encodings: encodings.clone(),
         },
         AssetConfig::Pattern {

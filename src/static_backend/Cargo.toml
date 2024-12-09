@@ -12,8 +12,8 @@ crate-type = ["cdylib"]
 candid = "0.10"
 ic-cdk = "0.16"
 ic-cdk-timers = "0.10" # Feel free to remove this dependency if you don't need timers
-ic-http-certification =  {git = "https://github.com/dfinity/response-verification"}
-ic-asset-certification = {git = "https://github.com/dfinity/response-verification"}
+ic-http-certification =  {git = "https://github.com/dfinity/response-verification", rev = "911afa6a72dd31e17f034c94d971af354fca604d"}
+ic-asset-certification = {git = "https://github.com/dfinity/response-verification", rev = "911afa6a72dd31e17f034c94d971af354fca604d"}
 include_dir = {version = "0.7.4", features = ["glob"]}
 serde = "1.0.215"
 handlebars = "6.2.0"

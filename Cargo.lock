@@ -369,7 +369,7 @@ dependencies = [
 [[package]]
 name = "ic-asset-certification"
 version = "2.6.0"
-source = "git+https://github.com/dfinity/response-verification?rev=911afa6a72dd31e17f034c94d971af354fca604d#911afa6a72dd31e17f034c94d971af354fca604d"
+source = "git+https://github.com/dfinity/response-verification?rev=673d3194fcadf38ddacdac9346b9c08bf0e23b86#673d3194fcadf38ddacdac9346b9c08bf0e23b86"
 dependencies = [
  "globset",
  "http",
@@ -422,7 +422,7 @@ dependencies = [
 [[package]]
 name = "ic-certification"
 version = "2.6.0"
-source = "git+https://github.com/dfinity/response-verification?rev=911afa6a72dd31e17f034c94d971af354fca604d#911afa6a72dd31e17f034c94d971af354fca604d"
+source = "git+https://github.com/dfinity/response-verification?rev=673d3194fcadf38ddacdac9346b9c08bf0e23b86#673d3194fcadf38ddacdac9346b9c08bf0e23b86"
 dependencies = [
  "hex",
  "serde",
@@ -433,7 +433,7 @@ dependencies = [
 [[package]]
 name = "ic-http-certification"
 version = "2.6.0"
-source = "git+https://github.com/dfinity/response-verification?rev=911afa6a72dd31e17f034c94d971af354fca604d#911afa6a72dd31e17f034c94d971af354fca604d"
+source = "git+https://github.com/dfinity/response-verification?rev=673d3194fcadf38ddacdac9346b9c08bf0e23b86#673d3194fcadf38ddacdac9346b9c08bf0e23b86"
 dependencies = [
  "base64",
  "candid",
@@ -449,7 +449,7 @@ dependencies = [
 [[package]]
 name = "ic-representation-independent-hash"
 version = "2.6.0"
-source = "git+https://github.com/dfinity/response-verification?rev=911afa6a72dd31e17f034c94d971af354fca604d#911afa6a72dd31e17f034c94d971af354fca604d"
+source = "git+https://github.com/dfinity/response-verification?rev=673d3194fcadf38ddacdac9346b9c08bf0e23b86#673d3194fcadf38ddacdac9346b9c08bf0e23b86"
 dependencies = [
  "leb128",
  "sha2",

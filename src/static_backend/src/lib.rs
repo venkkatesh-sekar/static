@@ -41,7 +41,7 @@ fn post_upgrade() {
 }
 
 fn certify_on_timer() {
-    ic_cdk_timers::set_timer_interval(Duration::from_secs(UPDATE_INTERVAL_SECS), || {
+    fn certify_helper() {
         ic_cdk::spawn(async {
             let now = ic_cdk::api::performance_counter(1);
             asset::certify_all_assets().await;
@@ -52,6 +52,15 @@ fn certify_on_timer() {
             // cycles = inst * (10 / 10) * (13 / 13) = inst
             LAST_CYCLES_FOR_TIMER.with_borrow_mut(|v| *v = elapsed - now);
         })
+    }
+
+    // Instantiate first timer immediately
+    ic_cdk_timers::set_timer(Duration::from_secs(0), || {
+        certify_helper();
+    });
+
+    ic_cdk_timers::set_timer_interval(Duration::from_secs(UPDATE_INTERVAL_SECS), || {
+        certify_helper();
     });
 }
 
